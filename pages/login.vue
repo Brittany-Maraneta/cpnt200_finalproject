@@ -1,4 +1,5 @@
 <template>
+  <NuxtLink to="index">Back</NuxtLink>
   <div class="container">
     <div class="card">
       <h1>Sign up to Roaming Routes</h1>
@@ -33,7 +34,7 @@ async function signUp() {
     email: email.value,
     password: password.value,
     options: {
-      emailRedirectTo: "http://localhost:3000/confirm",
+      RedirectTo: "http://localhost:3000/confirm",
     },
   });
 }
@@ -88,13 +89,10 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-bottom: 12px;
 }
 
 button:hover {
   background-color: rgb(136, 136, 66);
-}
-
-.error {
-  color: red;
 }
 </style>
