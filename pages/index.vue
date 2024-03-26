@@ -9,8 +9,8 @@
     <ul>
       <li v-for="Roaming_Routes in roaming" :key="Roaming_Routes.id">
         <h3>{{ Roaming_Routes.blog_title }}</h3>
-        {{ Roaming_Routes.date }}
         {{ Roaming_Routes.blog_text }}
+        {{ Roaming_Routes.comment }}
       </li>
     </ul>
   </div>
