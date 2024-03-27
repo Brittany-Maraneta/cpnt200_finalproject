@@ -3,46 +3,62 @@
   <div class="container">
     <div class="card">
       <h1>Sign up to Roaming Routes</h1>
-      <form>
+      <form @submit.prevent="signIn">
         <div class="form-group">
           <label for="email">Email:</label>
-          <input type="email" name="email" v-model="email" />
+          <input type="email" name="email" id="email" v-model="email" />
           <div>{{ email }}</div>
         </div>
         <div class="form-group">
           <label for="password">Password:</label>
-          <input type="password" name="password" v-model="password" />
+          <input
+            type="password"
+            name="password"
+            id="password"
+            v-model="password"
+          />
           <div>{{ password }}</div>
         </div>
-        <button @click="signInWithPassword">Sign In</button>
+        <button @click="signIn">Sign In</button>
         <button @click="signUp">Sign Up</button>
       </form>
     </div>
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
-
+<script setup lang="ts">
+const router = useRouter();
 const supabase = useSupabaseClient();
 const email = ref("");
 const password = ref("");
 
-async function signInWithPassword() {
-  let { data, error } = await supabase.auth.signInWithPassword({
-    email: email.value,
-    password: password.value,
-    options: {
-      RedirectTo: "http://localhost:3000/confirm",
-    },
-  });
+// Sign in info
+async function signIn() {
+  try {
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email.value,
+      password: password.value,
+    });
+    if (error) throw error;
+    router.push("/confirm");
+  } catch (error) {
+    console.error(`Login Error: ${error}`);
+  }
 }
 
+// Sign up info
 async function signUp() {
-  let { data, error } = await supabase.auth.signUp({
-    email: email.value,
-    password: password.value,
-  });
+  try {
+    const { data, error } = await supabase.auth.signUp({
+      email: email.value,
+      password: password.value,
+    });
+    if (error) {
+      throw error;
+    }
+  } catch (error) {
+    console.error(`Sign Up Error: ${error}`);
+  }
 }
 </script>
 

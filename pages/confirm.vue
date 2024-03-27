@@ -1,6 +1,6 @@
 <template>
   <h1>Roaming Routes</h1>
-  <button @click="logout">logout</button>
+  <h3 class="userEmail">Email: {{ user.email }}</h3>
   <div>
     <ul>
       <li v-for="Roaming_Routes in roaming" :key="Roaming_Routes.id">
@@ -10,21 +10,23 @@
       </li>
     </ul>
   </div>
+  <button @click="signOut">Sign Out</button>
 </template>
 
 <script setup lang="ts">
 const user = useSupabaseUser();
+const client = useSupabaseClient();
 
 watch(
   user,
   () => {
-    if (user.value) {
+    if (!user.value) {
       return navigateTo("/");
     }
   },
   { immediate: true }
 );
-const client = useSupabaseClient();
+
 const { data: roaming } = await useAsyncData("Roaming_Routes", async () => {
   try {
     let { data, error } = await client
@@ -36,12 +38,18 @@ const { data: roaming } = await useAsyncData("Roaming_Routes", async () => {
   }
 });
 
-async function logout() {
+async function signOut() {
   try {
-    let { error } = await supabase.auth.signOut();
+    let { error } = await client.auth.signOut();
     if (error) throw error;
   } catch (error) {
-    console.error(`signout error: ${error}`);
+    console.error(`signOut error: ${error}`);
   }
 }
 </script>
+
+<style scoped>
+.userEmail {
+  text-align: right;
+}
+</style>
