@@ -1,5 +1,6 @@
 <template>
   <h1>Roaming Routes</h1>
+  <button @click="logout">logout</button>
   <div>
     <ul>
       <li v-for="Roaming_Routes in roaming" :key="Roaming_Routes.id">
@@ -34,4 +35,13 @@ const { data: roaming } = await useAsyncData("Roaming_Routes", async () => {
     console.error(error);
   }
 });
+
+async function logout() {
+  try {
+    let { error } = await supabase.auth.signOut();
+    if (error) throw error;
+  } catch (error) {
+    console.error(`signout error: ${error}`);
+  }
+}
 </script>

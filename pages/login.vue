@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink to="index">Back</NuxtLink>
+  <NuxtLink to="/">Back</NuxtLink>
   <div class="container">
     <div class="card">
       <h1>Sign up to Roaming Routes</h1>
@@ -14,9 +14,8 @@
           <input type="password" name="password" v-model="password" />
           <div>{{ password }}</div>
         </div>
+        <button @click="signInWithPassword">Sign In</button>
         <button @click="signUp">Sign Up</button>
-
-        <button @click="logout">logout</button>
       </form>
     </div>
   </div>
@@ -29,8 +28,8 @@ const supabase = useSupabaseClient();
 const email = ref("");
 const password = ref("");
 
-async function signUp() {
-  let { data, error } = await supabase.auth.signUp({
+async function signInWithPassword() {
+  let { data, error } = await supabase.auth.signInWithPassword({
     email: email.value,
     password: password.value,
     options: {
@@ -39,13 +38,11 @@ async function signUp() {
   });
 }
 
-async function logout() {
-  try {
-    let { error } = await supabase.auth.signOut();
-    if (error) throw error;
-  } catch (error) {
-    console.error(`signout error: ${error}`);
-  }
+async function signUp() {
+  let { data, error } = await supabase.auth.signUp({
+    email: email.value,
+    password: password.value,
+  });
 }
 </script>
 
