@@ -30,7 +30,7 @@ const email = ref("");
 const password = ref("");
 
 async function signUp() {
-  const { data, error } = await supabase.auth.signUp({
+  let { data, error } = await supabase.auth.signUp({
     email: email.value,
     password: password.value,
     options: {
