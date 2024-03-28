@@ -1,16 +1,19 @@
 <template>
+  <div class="nav">
+    <button class="navButton" @click="signOut">Sign Out</button>
+    <h3 class="userEmail">Email: {{ user.email }}</h3>
+  </div>
   <h1>Roaming Routes</h1>
-  <h3 class="userEmail">Email: {{ user.email }}</h3>
   <div>
     <ul>
       <li v-for="Roaming_Routes in roaming" :key="Roaming_Routes.id">
         <h3>{{ Roaming_Routes.blog_title }}</h3>
         {{ Roaming_Routes.blog_text }}
         {{ Roaming_Routes.comment }}
+        <LikeButton />
       </li>
     </ul>
   </div>
-  <button @click="signOut">Sign Out</button>
 </template>
 
 <script setup lang="ts">
@@ -27,6 +30,7 @@ watch(
   { immediate: true }
 );
 
+// Fetching data
 const { data: roaming } = await useAsyncData("Roaming_Routes", async () => {
   try {
     let { data, error } = await client
@@ -38,6 +42,7 @@ const { data: roaming } = await useAsyncData("Roaming_Routes", async () => {
   }
 });
 
+// Sign out section
 async function signOut() {
   try {
     let { error } = await client.auth.signOut();
@@ -49,7 +54,16 @@ async function signOut() {
 </script>
 
 <style scoped>
-.userEmail {
-  text-align: right;
+.nav,
+.navButton {
+  display: flex;
+  justify-content: space-between;
+  background-color: olivedrab;
+  align-items: center;
+  border: none;
+}
+
+.navButton:hover {
+  color: white;
 }
 </style>

@@ -19,8 +19,8 @@
           />
           <div>{{ password }}</div>
         </div>
-        <button @click="signIn">Sign In</button>
-        <button @click="signUp">Sign Up</button>
+        <button class="button" @click="signIn">Sign In</button>
+        <button class="button" @click="signUp">Sign Up</button>
       </form>
     </div>
   </div>
@@ -94,7 +94,7 @@ input {
   margin-bottom: 10px;
 }
 
-button {
+.button {
   width: 100%;
   padding: 10px;
   background-color: rgb(73, 73, 1);
