@@ -1,12 +1,16 @@
 <template>
+  <div class="nav">
+    <button class="navButton" @click="signOut">Sign Out</button>
+    <h3 class="userEmail">Email: {{ user.email }}</h3>
+  </div>
   <h1>Roaming Routes</h1>
-  <button @click="logout">logout</button>
   <div>
     <ul>
       <li v-for="Roaming_Routes in roaming" :key="Roaming_Routes.id">
         <h3>{{ Roaming_Routes.blog_title }}</h3>
         {{ Roaming_Routes.blog_text }}
         {{ Roaming_Routes.comment }}
+        <LikeButton />
       </li>
     </ul>
   </div>
@@ -14,17 +18,19 @@
 
 <script setup lang="ts">
 const user = useSupabaseUser();
+const client = useSupabaseClient();
 
 watch(
   user,
   () => {
-    if (user.value) {
+    if (!user.value) {
       return navigateTo("/");
     }
   },
   { immediate: true }
 );
-const client = useSupabaseClient();
+
+// Fetching data
 const { data: roaming } = await useAsyncData("Roaming_Routes", async () => {
   try {
     let { data, error } = await client
@@ -36,12 +42,28 @@ const { data: roaming } = await useAsyncData("Roaming_Routes", async () => {
   }
 });
 
-async function logout() {
+// Sign out section
+async function signOut() {
   try {
-    let { error } = await supabase.auth.signOut();
+    let { error } = await client.auth.signOut();
     if (error) throw error;
   } catch (error) {
-    console.error(`signout error: ${error}`);
+    console.error(`signOut error: ${error}`);
   }
 }
 </script>
+
+<style scoped>
+.nav,
+.navButton {
+  display: flex;
+  justify-content: space-between;
+  background-color: olivedrab;
+  align-items: center;
+  border: none;
+}
+
+.navButton:hover {
+  color: white;
+}
+</style>

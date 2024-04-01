@@ -5,12 +5,9 @@
       <NuxtLink to="/login">Login</NuxtLink>
     </h1>
   </div>
-
 </template>
 
-<script setup>
-
-</script>
+<script setup></script>
 
 <style>
 h1 {
