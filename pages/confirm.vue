@@ -9,7 +9,6 @@
       <li v-for="Roaming_Routes in roaming" :key="Roaming_Routes.id">
         <h3>{{ Roaming_Routes.blog_title }}</h3>
         {{ Roaming_Routes.blog_text }}
-        {{ Roaming_Routes.comment }}
         <LikeButton />
       </li>
     </ul>
@@ -35,7 +34,7 @@ const { data: roaming } = await useAsyncData("Roaming_Routes", async () => {
   try {
     let { data, error } = await client
       .from("Roaming_Routes")
-      .select("blog_title, blog_text");
+      .select("id, blog_title, blog_text");
     return data;
   } catch (error) {
     console.error(error);
