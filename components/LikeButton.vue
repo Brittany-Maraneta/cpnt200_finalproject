@@ -1,22 +1,18 @@
 <template>
     <div>
       <button @click="incrementLikes">&#9829</button>
-  <span>{{ likeCount }}</span>
+      <span>{{ likeCount }}</span>
     </div>
 </template>
 
 <script setup>
 // Like button
-const heart = useSupabaseUser();
-watch(heart, newValue => {
-  if (newValue) {
-    navigateTo("/");
-  }
-});
+
 const likeCount = ref(0);
 function incrementLikes() {
   likeCount.value++;
 }
+
 </script>
 
 <style scoped>
